@@ -1,8 +1,13 @@
+import {observer} from 'mobx-react-lite';
 import {useContext, useState, useEffect, ReactElement} from 'react';
 
-import {InitializationServiceContext} from '../../../context';
+import {
+    InitializationServiceContext,
+    useErrorIndicationService,
+    useThrobberService,
+} from '../../../context';
 
-export function Main(): ReactElement {
+export const Main = observer((): ReactElement => {
     const initializationService = useContext(InitializationServiceContext);
 
     const [firstRender, checkFirstRender] = useState(true);
@@ -14,9 +19,17 @@ export function Main(): ReactElement {
         }
     }, [firstRender]);
 
+    const throbberService = useThrobberService();
+    const errorIndicationService = useErrorIndicationService();
+
+    const isThrobberOn = throbberService.isFetching;
+    const isError = errorIndicationService.isError;
+
     return (
-        <div className="App">
-            <h1>hello world</h1>
+        <div className="main">
+            {isThrobberOn && <span>loading...</span>}
+            {isError && <span>error!</span>}
+            {!isThrobberOn && !isError && <h1>hello world</h1>}
         </div>
     );
-}
+});

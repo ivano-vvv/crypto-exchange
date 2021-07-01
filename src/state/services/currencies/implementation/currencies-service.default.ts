@@ -8,6 +8,7 @@ import {Currency} from '../../../entities';
 import {servicesTokens} from '../../services.tokens';
 import {ThrobberService} from '../../throbber/throbber-service.model';
 import {CurrenciesService} from '../currencies-service.model';
+import {ErrorIndicationService} from '../../error-indication';
 
 @injectable()
 export class DefaultCurrenciesService implements CurrenciesService {
@@ -21,6 +22,7 @@ export class DefaultCurrenciesService implements CurrenciesService {
         this.currencySource
             .getAll()
             .then(list => this.handleSourceResponse(list))
+            .catch(() => this.errorIndication.toggle(true))
             .finally(() => this.throbberService.toggle(false));
     }
 
@@ -38,6 +40,9 @@ export class DefaultCurrenciesService implements CurrenciesService {
 
     @inject(servicesTokens.throbber)
     throbberService: ThrobberService;
+
+    @inject(servicesTokens.errorIndication)
+    errorIndication: ErrorIndicationService;
 
     @inject(coreTokens.sources.currency)
     currencySource: CurrencySource;

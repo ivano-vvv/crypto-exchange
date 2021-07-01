@@ -1,5 +1,5 @@
 import {injectable} from 'inversify';
-import {action, computed, makeObservable} from 'mobx';
+import {action, computed, makeObservable, observable} from 'mobx';
 
 import {ThrobberService} from '../throbber-service.model';
 
@@ -15,6 +15,7 @@ export class DefaultThrobberService implements ThrobberService {
         this.state = on;
     }
 
+    @observable
     private state = false;
 
     constructor() {
