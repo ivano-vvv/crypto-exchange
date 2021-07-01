@@ -7,14 +7,22 @@ import {
     CurrenciesService,
     DefaultCurrenciesService,
     DefaultErrorIndicationService,
+    DefaultInitializationService,
     DefaultThrobberService,
     ErrorIndicationService,
+    InitializationService,
     servicesTokens,
     ThrobberService,
 } from '../services';
 import {coreTokens} from './core.tokens';
 
 export const container = new Container({defaultScope: 'Singleton'});
+
+// TODO: divide composing on submodules
+
+container
+    .bind<InitializationService>(servicesTokens.initialization)
+    .to(DefaultInitializationService);
 
 container
     .bind<CurrenciesService>(servicesTokens.currencies)
