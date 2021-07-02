@@ -1,5 +1,5 @@
 import {AppContextProvider} from '../context';
-import './global.css';
+import './styles/global.css';
 import {Main} from './modules';
 
 export function App() {
