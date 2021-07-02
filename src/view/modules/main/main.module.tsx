@@ -1,14 +1,14 @@
 import {observer} from 'mobx-react-lite';
-import {useContext, useState, useEffect, ReactElement} from 'react';
+import {useState, useEffect, ReactElement} from 'react';
 
 import {
-    InitializationServiceContext,
+    useInitializationService,
     useErrorIndicationService,
     useThrobberService,
 } from '../../../context';
 
 export const Main = observer((): ReactElement => {
-    const initializationService = useContext(InitializationServiceContext);
+    const initializationService = useInitializationService();
 
     const [firstRender, checkFirstRender] = useState(true);
 
