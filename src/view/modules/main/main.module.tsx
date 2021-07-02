@@ -6,6 +6,9 @@ import {
     useErrorIndicationService,
     useThrobberService,
 } from '../../../context';
+import {Throbber} from '../../components';
+
+import s from './main.module.css';
 
 export const Main = observer((): ReactElement => {
     const initializationService = useInitializationService();
@@ -26,8 +29,8 @@ export const Main = observer((): ReactElement => {
     const isError = errorIndicationService.isError;
 
     return (
-        <div className="main">
-            {isThrobberOn && <span>loading...</span>}
+        <div className={s.self}>
+            {isThrobberOn && <Throbber className={s.throbber} />}
             {isError && <span>error!</span>}
             {!isThrobberOn && !isError && <h1>hello world</h1>}
         </div>
