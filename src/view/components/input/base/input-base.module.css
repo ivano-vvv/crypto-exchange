@@ -1,0 +1,17 @@
+.self {
+    color: inherit;
+    font-size: 16px;
+    line-height: 23px;
+    padding: 14px 16px;
+    border: 1px solid #e3ebef;
+    border-radius: 5px;
+    background: #f6f7f8;
+}
+
+.self:hover {
+    background: #fafafa;
+}
+
+.self:focus {
+    border: 1px solid #C1D9E6;
+}
