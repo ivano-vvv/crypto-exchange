@@ -1,6 +1,6 @@
 html {
-    --primary: #137e6e;
+    --primary: #11b3fe;
     --service-dark: #282828;
-    --service-light: #a7a7a7;
-    --white: #f4f4f4;
+    --service-light: #f6f7f8;
+    --white: white;
 }
