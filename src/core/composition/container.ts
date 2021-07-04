@@ -5,6 +5,11 @@ import {infrastructureTokens, OnlineConnector} from '../infrastructure';
 import {DefaultOnlineConnector} from '../infrastructure/online-connector/implementations/default-online-connector';
 import {CurrencySource, sourceTokens} from '../sources';
 import {CurrencyOnlineSource} from '../sources/currencies/implementations';
+import {
+    URIParamsFormatter,
+    utilsTokens,
+    DefaultURIParamsFormatter,
+} from '../utils';
 
 export const container = new Container({defaultScope: 'Singleton'});
 
@@ -21,3 +26,7 @@ container
 container
     .bind<CurrencySource>(sourceTokens.currencySource)
     .to(CurrencyOnlineSource);
+
+container
+    .bind<URIParamsFormatter>(utilsTokens.formatters.uriParams)
+    .to(DefaultURIParamsFormatter);
