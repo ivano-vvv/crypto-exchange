@@ -1,0 +1,12 @@
+.self {
+    display: flex;
+    column-gap: 12px;
+}
+
+.key {
+    text-transform: uppercase;
+}
+
+.label {
+    color: #80a2b6;
+}

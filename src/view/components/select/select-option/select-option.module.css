@@ -1,0 +1,18 @@
+.self {
+    cursor: pointer;
+    transition: all 0.4s ease-in;
+    padding: 14px 16px;
+    border: 1px solid #c1d9e5;
+    border-top: none;
+    background: #f6f7f8;
+}
+
+.self:hover {
+    background-color: #eaf1f7;
+}
+
+.self:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+

@@ -1,0 +1,32 @@
+.self {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    color: inherit;
+    font-size: 16px;
+    line-height: 23px;
+    padding: 14px 16px;
+    border: 1px solid #e3ebef;
+    border-radius: 5px;
+    background: #f6f7f8;
+
+    transition: border-radius 0.1s ease-in;
+}
+
+.self:hover {
+    background: #fafafa;
+}
+
+.self__opened {
+    border: 1px solid #c1d9e5;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.icon {
+    position: absolute;
+    right: 8px;
+    top: 0;
+}

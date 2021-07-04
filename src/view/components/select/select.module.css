@@ -1,0 +1,25 @@
+.self {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    width: 100%;
+}
+
+.optionsList {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 10; /* TODO: in case of using multiple z-indexes in the app they should be managed in separated module */
+}
+
+.optionsList__opened {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
