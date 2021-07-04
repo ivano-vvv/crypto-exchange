@@ -10,7 +10,8 @@ import {FULL_LIST_ENDPOINT} from './currencies-online-source.constants';
 export class CurrencyOnlineSource implements CurrencySource {
     async getAll(): Promise<Currency[]> {
         return await this.onlineConnector.get<Currency[]>(
-            this.fullListEndpoint
+            this.fullListEndpoint,
+            {active: true}
         );
     }
 
