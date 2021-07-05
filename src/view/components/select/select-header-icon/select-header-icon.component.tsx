@@ -14,7 +14,7 @@ export function SelectHeaderIcon({
 
     return (
         <div className={classNames(className, s.self)}>
-            {open ? <ArrowIcon /> : <CloseIcon />}
+            {open ? <CloseIcon /> : <ArrowIcon />}
         </div>
     );
 }
