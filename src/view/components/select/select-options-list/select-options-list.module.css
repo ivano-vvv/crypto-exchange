@@ -1,4 +1,18 @@
 .self {
     background: #fff;
     transition: all 0.1s ease-in;
+    max-height: 196px;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    border: 1px solid #c1d9e5;
+    border-top: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.self::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }

@@ -6,7 +6,7 @@ export interface SelectProps extends DefaultComponentProps {
 
     selectedItem?: SelectItem;
 
-    onSelect?: (item: string) => void;
+    onSelect?: (item: SelectItem) => void;
 
     optionParams?: SelectFieldParams;
 

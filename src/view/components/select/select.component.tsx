@@ -33,7 +33,7 @@ export function Select({
             setOpenState(false);
 
             if (onSelect) {
-                onSelect(item.key);
+                onSelect(item);
             }
         };
     }
