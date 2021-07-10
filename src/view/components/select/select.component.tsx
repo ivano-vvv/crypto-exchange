@@ -5,7 +5,7 @@ import useOnClickOutside from '../../utils/useOnClickOutside';
 
 import s from './select.module.css';
 import {SelectItem, SelectProps} from './select.typings';
-import {SelectHeaderComponent} from './select-header/select-header.component';
+import {SelectHeader} from './select-header/select-header.component';
 import {SelectOptionsList} from './select-options-list/select-options-list.component';
 
 export function Select({
@@ -13,28 +13,32 @@ export function Select({
     items,
     selectedItem,
     onSelect,
+    onTrigger,
     optionParams,
     headerParams,
     placeholder,
+    combined,
 }: SelectProps): ReactElement {
     const selfRef = createRef<HTMLDivElement>();
     const [open, setOpenState] = useState(false);
 
+    function applyNewOpenState(value: boolean): void {
+        setOpenState(value);
+        onTrigger && onTrigger(value);
+    }
+
     function handleWrapperClick(): void {
-        setOpenState(!open);
+        applyNewOpenState(!open);
     }
 
     function hanleOutsideClick(): void {
-        setOpenState(false);
+        applyNewOpenState(false);
     }
 
     function getOptionClickHandler(item: SelectItem): () => void {
         return () => {
-            setOpenState(false);
-
-            if (onSelect) {
-                onSelect(item);
-            }
+            applyNewOpenState(false);
+            onSelect && onSelect(item);
         };
     }
 
@@ -42,7 +46,8 @@ export function Select({
 
     return (
         <div className={classNames(className, s.self)} ref={selfRef}>
-            <SelectHeaderComponent
+            <SelectHeader
+                combined={combined}
                 open={open}
                 item={selectedItem}
                 params={headerParams}

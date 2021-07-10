@@ -6,17 +6,24 @@ import {SelectHeaderProps} from './select-header.typings';
 import {SelectField} from '../select-field';
 import {SelectHeaderIcon} from '../select-header-icon';
 
-export function SelectHeaderComponent({
+export function SelectHeader({
     open,
     className,
     item,
     params,
     placeholder,
     onClick,
+    combined,
 }: SelectHeaderProps): ReactElement {
     return (
         <div
-            className={classNames(className, s.self, open && s.self__opened)}
+            className={classNames(
+                className,
+                s.self,
+                open && s.self__opened,
+                combined && combined.includes('left') && s.self__combinedLeft,
+                combined && combined.includes('right') && s.self__combinedRight
+            )}
             onClick={onClick}
         >
             {!item && placeholder && <span>{placeholder}</span>}

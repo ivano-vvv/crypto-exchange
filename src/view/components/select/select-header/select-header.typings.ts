@@ -1,4 +1,5 @@
 import {DefaultComponentProps} from '../../../typings';
+import {CombinedState} from '../../shared.typings';
 import {SelectFieldParams} from '../select-field/select-field.typings';
 import {SelectItem} from '../select.typings';
 
@@ -12,4 +13,6 @@ export interface SelectHeaderProps extends DefaultComponentProps {
     params?: SelectFieldParams;
 
     onClick?: () => void;
+
+    combined?: CombinedState[];
 }
