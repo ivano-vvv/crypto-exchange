@@ -4,4 +4,6 @@ export type Currency = {
     name: string;
 
     image: string;
+
+    minRates: Dictionary<number>;
 };

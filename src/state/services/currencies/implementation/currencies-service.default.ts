@@ -31,6 +31,7 @@ export class DefaultCurrenciesService implements CurrenciesService {
             image: c.image,
             name: c.name,
             ticker: c.ticker,
+            minRates: {},
         }));
     }
 
