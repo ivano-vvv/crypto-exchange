@@ -33,7 +33,7 @@ export const Main = observer((): ReactElement => {
         <div className={s.self}>
             {isThrobberOn && <Throbber className={s.throbber} />}
             {isError && <span>error!</span>}
-            {!isThrobberOn && !isError && <MainContent />}
+            {!isThrobberOn && !isError && <MainContent className={s.content} />}
         </div>
     );
 });

@@ -5,12 +5,17 @@ import {observer} from 'mobx-react-lite';
 import s from './buy-input.module.css';
 import {DefaultComponentProps} from '../../typings';
 import {CurrencyInput} from '../../components/currency-input';
-import {useBuyInputService, useCurrenciesService} from '../../../context';
+import {
+    useBuyInputService,
+    useCurrenciesService,
+    useSellInputService,
+} from '../../../context';
 import {CurrencyInputValue} from '../../components/currency-input/currency-input.typings';
 
 export const BuyInput = observer(
     ({className}: DefaultComponentProps): ReactElement => {
         const buyInputService = useBuyInputService();
+        const sellInputService = useSellInputService();
         const currenciesService = useCurrenciesService();
 
         const amount = buyInputService.amount;
@@ -27,10 +32,12 @@ export const BuyInput = observer(
         };
 
         function handleValueUpdate(value: CurrencyInputValue): void {
-            const {amount, kind} = value;
+            const {kind} = value;
 
-            buyInputService.updateAmount(amount);
+            // buyInputService.updateAmount(amount); // no info about handling target value change
+
             buyInputService.updateCurrency(kind.ticker);
+            sellInputService.updateAmount(sellInputService.amount); // TODO: should not depends on service of another input
         }
 
         const errorMessage = buyInputService.errorMessage;
@@ -42,7 +49,9 @@ export const BuyInput = observer(
                     value={value}
                     onValueChange={handleValueUpdate}
                 />
-                {errorMessage && <span>{errorMessage}</span>}
+                {errorMessage && (
+                    <span className={s.errorLabel}>{errorMessage}</span>
+                )}
             </div>
         );
     }

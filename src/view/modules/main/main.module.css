@@ -9,3 +9,7 @@
     background-color: var(--white);
     color: var(--service-dark);
 }
+
+.content {
+    width: 960px;
+}

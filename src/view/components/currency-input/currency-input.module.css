@@ -5,11 +5,16 @@
 
 .amountWrapper {
     position: relative;
+    flex-grow: 2;
 }
 
 .amountWrapper__hidden {
     opacity: 0;
     width: 0;
+}
+
+.amount {
+    width: 100%;
 }
 
 .kindWrapper {

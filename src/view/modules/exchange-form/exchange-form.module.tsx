@@ -11,8 +11,8 @@ export const ExchangeForm = observer(
     ({className}: DefaultComponentProps): ReactElement => {
         return (
             <form className={classNames(className, s.self)}>
-                <SellInput />
-                <BuyInput />
+                <SellInput className={classNames(s.input, s.input__sell)} />
+                <BuyInput className={classNames(s.input, s.input__buy)} />
             </form>
         );
     }

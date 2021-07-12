@@ -42,7 +42,8 @@ export const SellInput = observer(
                     value={value}
                     onValueChange={handleValueUpdate}
                 />
-                {errorMessage && <span>{errorMessage}</span>}
+                {/* TODO: should be inside component */}
+                {errorMessage && <p className={s.errorLabel}>{errorMessage}</p>}
             </div>
         );
     }

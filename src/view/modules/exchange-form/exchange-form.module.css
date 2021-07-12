@@ -1,0 +1,8 @@
+.self {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    width: 440px;
+}
