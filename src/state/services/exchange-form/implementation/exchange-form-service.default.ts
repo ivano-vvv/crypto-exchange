@@ -15,17 +15,31 @@ import {
 // TODO: should be refactored
 @injectable()
 export class DefaultExchangeFormService implements ExchangeFormService {
-    @observable
-    fromValue: ViewInputValue;
+    @computed
+    get fromValue(): ViewInputValue {
+        return {
+            amount: this.fromInput.value,
+            kind: this.fromInput.currency,
+        };
+    }
 
-    @observable
-    toValue: ViewInputValue;
+    @computed
+    get toValue(): ViewInputValue {
+        return {
+            amount: this.toInput.value,
+            kind: this.toInput.currency,
+        };
+    }
 
-    @observable
-    fromState: State;
+    @computed
+    get fromState(): State {
+        return this.fromInput.state;
+    }
 
-    @observable
-    toState: State;
+    @computed
+    get toState(): State {
+        return this.toInput.state;
+    }
 
     @computed
     get fromErrorMessage(): string | null {
@@ -235,18 +249,6 @@ export class DefaultExchangeFormService implements ExchangeFormService {
             ...defaultInput,
             currency: {...defaultInput.currency},
         };
-
-        this.fromValue = {
-            amount: this.fromInput.value,
-            kind: this.fromInput.currency,
-        };
-        this.toValue = {
-            amount: this.toInput.value,
-            kind: this.toInput.currency,
-        };
-
-        this.fromState = this.fromInput.state;
-        this.toState = this.toInput.state;
     }
 
     @inject(servicesTokens.currencies)
