@@ -5,10 +5,11 @@ import {Currency as SourceCurrency} from '../../../../core';
 import {coreTokens} from '../../../composition/core.tokens';
 
 import {Currency} from '../../../entities';
-import {servicesTokens} from '../../services.tokens';
-import {ThrobberService} from '../../throbber/throbber-service.model';
 import {CurrenciesService} from '../currencies-service.model';
-import {ErrorIndicationService} from '../../error-indication';
+import {
+    EstimatedExchangeService,
+    MinExchangeService,
+} from '../../../../core/services';
 
 @injectable()
 export class DefaultCurrenciesService implements CurrenciesService {
@@ -16,17 +17,60 @@ export class DefaultCurrenciesService implements CurrenciesService {
     list: Currency[] = [];
 
     @action
-    update(): void {
-        this.throbberService.toggle(true);
-
-        this.currencySource
+    async update(): Promise<void> {
+        await this.currencySource
             .getAll()
-            .then(list => this.handleSourceResponse(list))
-            .catch(() => this.errorIndication.toggle(true))
-            .finally(() => this.throbberService.toggle(false));
+            .then(list => this.handleSourceResponse(list));
+    }
+
+    @observable
+    get(ticker: string): Currency | undefined {
+        return this.list.find(c => c.ticker === ticker); // TODO: it's possible to implement in the service binary search
+    }
+
+    async getMinRate(
+        from: Currency['ticker'],
+        to: Currency['ticker']
+    ): Promise<number> {
+        const fromCurrency = this.list.find(c => c.ticker === from);
+        const toCurrency = this.list.find(c => c.ticker === to); // TODO: both should be found in one cycle
+
+        if (!fromCurrency || !toCurrency) {
+            throw new Error();
+        }
+
+        const savedMinRate = fromCurrency.minRates[toCurrency.ticker];
+
+        if (savedMinRate) {
+            return await savedMinRate;
+        }
+
+        await this.minExchangeCoreService
+            .calc(fromCurrency.ticker, toCurrency.ticker)
+            .then(res => {
+                fromCurrency.minRates[toCurrency.ticker] = res.minAmount;
+            });
+
+        return await fromCurrency.minRates[toCurrency.ticker];
+    }
+
+    async getEstimatedRate(
+        amount: number,
+        currencies: {
+            from: Currency['ticker'];
+            to: Currency['ticker'];
+        }
+    ): Promise<number> {
+        const res = await this.estimatedExchangeCoreService.calc(
+            amount,
+            currencies
+        );
+
+        return res.estimatedAmount;
     }
 
     private handleSourceResponse(list: SourceCurrency[]): void {
+        // TODO: list should be sorted in order to implement binary search
         this.list = list.map(c => ({
             image: c.image,
             name: c.name,
@@ -39,12 +83,12 @@ export class DefaultCurrenciesService implements CurrenciesService {
         makeObservable(this);
     }
 
-    @inject(servicesTokens.throbber)
-    throbberService: ThrobberService;
-
-    @inject(servicesTokens.errorIndication)
-    errorIndication: ErrorIndicationService;
-
     @inject(coreTokens.sources.currency)
     currencySource: CurrencySource;
+
+    @inject(coreTokens.services.minExchange)
+    minExchangeCoreService: MinExchangeService;
+
+    @inject(coreTokens.services.estimatedExchange)
+    estimatedExchangeCoreService: EstimatedExchangeService;
 }
