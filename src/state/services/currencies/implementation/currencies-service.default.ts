@@ -1,5 +1,5 @@
 import {inject, injectable} from 'inversify';
-import {action, makeObservable, observable} from 'mobx';
+import {action, computed, makeObservable, observable} from 'mobx';
 import {CurrencySource} from '../../../../core/sources';
 import {Currency as SourceCurrency} from '../../../../core';
 import {coreTokens} from '../../../composition/core.tokens';
@@ -13,8 +13,10 @@ import {
 
 @injectable()
 export class DefaultCurrenciesService implements CurrenciesService {
-    @observable
-    list: Currency[] = [];
+    @computed
+    get list(): Currency[] {
+        return [...this._list];
+    }
 
     @action
     async update(): Promise<void> {
@@ -69,9 +71,13 @@ export class DefaultCurrenciesService implements CurrenciesService {
         return res.estimatedAmount;
     }
 
+    @observable
+    private _list: Currency[] = [];
+
+    @action
     private handleSourceResponse(list: SourceCurrency[]): void {
         // TODO: list should be sorted in order to implement binary search
-        this.list = list.map(c => ({
+        this._list = list.map(c => ({
             image: c.image,
             name: c.name,
             ticker: c.ticker,

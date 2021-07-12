@@ -9,13 +9,17 @@ import {
 import {CurrencySource} from '../../core/sources';
 
 import {
+    BuyInputService,
     CurrenciesService,
+    DefaultBuyInputService,
     DefaultCurrenciesService,
     DefaultErrorIndicationService,
     DefaultInitializationService,
+    DefaultSellInputService,
     DefaultThrobberService,
     ErrorIndicationService,
     InitializationService,
+    SellInputService,
     servicesTokens,
     ThrobberService,
 } from '../services';
@@ -38,6 +42,14 @@ container
 container
     .bind<ExchangeFormService>(servicesTokens.exchangeForm)
     .to(DefaultExchangeFormService);
+
+container
+    .bind<BuyInputService>(servicesTokens.buyInputService)
+    .to(DefaultBuyInputService);
+
+container
+    .bind<SellInputService>(servicesTokens.sellInputService)
+    .to(DefaultSellInputService);
 
 container
     .bind<ThrobberService>(servicesTokens.throbber)

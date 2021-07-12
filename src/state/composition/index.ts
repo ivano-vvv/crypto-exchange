@@ -1,8 +1,10 @@
 import {container} from './container';
 import {
+    BuyInputService,
     CurrenciesService,
     ErrorIndicationService,
     InitializationService,
+    SellInputService,
     servicesTokens,
     ThrobberService,
 } from '../services';
@@ -13,6 +15,12 @@ export const stateServices = {
         servicesTokens.initialization
     ),
     currencies: container.get<CurrenciesService>(servicesTokens.currencies),
+    buyInputService: container.get<BuyInputService>(
+        servicesTokens.buyInputService
+    ),
+    sellInputService: container.get<SellInputService>(
+        servicesTokens.sellInputService
+    ),
     exchangeForm: container.get<ExchangeFormService>(
         servicesTokens.exchangeForm
     ),

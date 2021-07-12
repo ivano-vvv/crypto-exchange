@@ -1,6 +1,6 @@
 import {ChangeEvent, ReactElement} from 'react';
 
-import {Input} from '../../../components/input';
+import {Input} from '../../input';
 import {CurrencyAmountInputProps} from './currency-amount-input.typings';
 
 export function CurrencyAmountInput({

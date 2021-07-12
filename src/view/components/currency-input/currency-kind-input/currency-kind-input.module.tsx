@@ -1,7 +1,7 @@
 import {ReactElement} from 'react';
 import {useCurrenciesService} from '../../../../context';
-import {Select} from '../../../components/select';
-import {SelectItem} from '../../../components/select/select.typings';
+import {Select} from '../../select';
+import {SelectItem} from '../../select/select.typings';
 import {CurrencyKindInputProps} from './currency-kind-input.typings';
 import {convertCurrencyToSelectItem} from './currency-kind-input.utils';
 
