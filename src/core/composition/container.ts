@@ -4,7 +4,9 @@ import 'reflect-metadata';
 import {infrastructureTokens, OnlineConnector} from '../infrastructure';
 import {DefaultOnlineConnector} from '../infrastructure/online-connector/implementations/default-online-connector';
 import {
+    DefaultEstimatedExchangeService,
     DefaultMinExchangeService,
+    EstimatedExchangeService,
     MinExchangeService,
     serviceTokens,
 } from '../services';
@@ -39,6 +41,10 @@ container
 container
     .bind<MinExchangeService>(serviceTokens.minExchange)
     .to(DefaultMinExchangeService);
+
+container
+    .bind<EstimatedExchangeService>(serviceTokens.estimatedExchange)
+    .to(DefaultEstimatedExchangeService);
 
 container
     .bind<URIParamsFormatter>(utilsTokens.formatters.uriParams)

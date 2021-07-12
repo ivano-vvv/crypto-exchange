@@ -1,4 +1,8 @@
-import {MinExchangeService, serviceTokens} from '../services';
+import {
+    EstimatedExchangeService,
+    MinExchangeService,
+    serviceTokens,
+} from '../services';
 import {CurrencySource, sourceTokens} from '../sources';
 import {container} from './container';
 
@@ -8,4 +12,7 @@ export const sources = {
 
 export const services = {
     minExchange: container.get<MinExchangeService>(serviceTokens.minExchange),
+    estimatedExchange: container.get<EstimatedExchangeService>(
+        serviceTokens.estimatedExchange
+    ),
 };
