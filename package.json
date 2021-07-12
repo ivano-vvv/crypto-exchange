@@ -49,8 +49,10 @@
     "devDependencies": {
         "@types/node": "^14.11.2",
         "gts": "^3.1.0",
-        "simple-git-hooks": "^2.5.1",
         "typescript": "^4.3.4"
+    },
+    "optionalDependencies": {
+        "simple-git-hooks": "^2.5.1"
     },
     "simple-git-hooks": {
         "pre-commit": "npm run fix"
