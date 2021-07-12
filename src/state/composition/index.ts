@@ -8,7 +8,6 @@ import {
     servicesTokens,
     ThrobberService,
 } from '../services';
-import {ExchangeFormService} from '../services/exchange-form/exchange-form-service.model';
 
 export const stateServices = {
     initialization: container.get<InitializationService>(
@@ -20,9 +19,6 @@ export const stateServices = {
     ),
     sellInputService: container.get<SellInputService>(
         servicesTokens.sellInputService
-    ),
-    exchangeForm: container.get<ExchangeFormService>(
-        servicesTokens.exchangeForm
     ),
     throbber: container.get<ThrobberService>(servicesTokens.throbber),
     errorIndication: container.get<ErrorIndicationService>(

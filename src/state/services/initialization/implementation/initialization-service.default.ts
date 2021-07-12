@@ -3,9 +3,10 @@ import {inject, injectable} from 'inversify';
 import {ThrobberService} from '../../throbber';
 import {ErrorIndicationService} from '../../error-indication';
 import {CurrenciesService} from '../../currencies';
-import {ExchangeFormService} from '../../exchange-form/exchange-form-service.model';
+import {ExchangeFormInitializer} from '../../../features';
 import {servicesTokens} from '../../services.tokens';
 import {InitializationService} from '../initialization-service.model';
+import {featuresTokens} from '../../../features/featuresTokens';
 
 @injectable()
 export class DefaultInitializationService implements InitializationService {
@@ -15,7 +16,7 @@ export class DefaultInitializationService implements InitializationService {
         this.currenciesService
             .update()
             .then(() => {
-                this.exchangeFormService
+                this.exchangeFormInitializer
                     .init()
                     .then(() => this.throbberService.toggle(false));
             })
@@ -25,8 +26,8 @@ export class DefaultInitializationService implements InitializationService {
     @inject(servicesTokens.currencies)
     private readonly currenciesService: CurrenciesService;
 
-    @inject(servicesTokens.exchangeForm)
-    private readonly exchangeFormService: ExchangeFormService;
+    @inject(featuresTokens.exchangeForm.initializer)
+    private readonly exchangeFormInitializer: ExchangeFormInitializer;
 
     @inject(servicesTokens.throbber)
     throbberService: ThrobberService;

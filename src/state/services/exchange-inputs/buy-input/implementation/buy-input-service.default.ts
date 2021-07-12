@@ -3,6 +3,7 @@ import {action, computed, makeObservable, observable} from 'mobx';
 import {State} from '../../../typings';
 import {BuyInputService} from '../buy-input.model';
 
+// TODO: buy input service and sell input service should have a common parent
 @injectable()
 export class DefaultBuyInputService implements BuyInputService {
     @computed
@@ -27,16 +28,22 @@ export class DefaultBuyInputService implements BuyInputService {
 
     @action
     updateAmount(value: number): void {
-        console.error(
-            new Error(
-                `updating target value is not implemented yet; value: ${value}`
-            )
-        );
+        this._amount = value;
     }
 
     @action
     updateCurrency(ticker: string): void {
         this._currencyTicker = ticker;
+    }
+
+    @action
+    updateState(state: State): void {
+        this._state = state;
+    }
+
+    @action
+    updateErrorMessage(errorMsg: string | null): void {
+        this._errorMessage = errorMsg;
     }
 
     @observable

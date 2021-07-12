@@ -1,6 +1,13 @@
-import {injectable} from 'inversify';
+import {inject, injectable} from 'inversify';
 import {action, computed, makeObservable, observable} from 'mobx';
+
+import {MinExchangeService} from '../../../../../core/services';
+import {coreTokens} from '../../../../composition/core.tokens';
+import {BuyInputSyncronizer} from '../../../../features/exchange-form/buy-input-synchronizer/buy-input-synchronizer.model';
+import {featuresTokens} from '../../../../features/featuresTokens';
+import {servicesTokens} from '../../../services.tokens';
 import {State} from '../../../typings';
+import {BuyInputService} from '../../buy-input';
 import {SellInputService} from '../sell-input.model';
 
 @injectable()
@@ -27,12 +34,46 @@ export class DefaultSellInputService implements SellInputService {
 
     @action
     updateAmount(value: number): void {
-        this._amount = value;
+        this._amount = value || 0;
+
+        this.minExchangeService
+            .calc(this.currencyTicker, this.buyInputService.currencyTicker)
+            .then(({minAmount}) => {
+                this.handleMinAmount(minAmount);
+                this.recalcBuyAmount();
+            })
+            .catch(() => {
+                this.updateState('error');
+            });
     }
 
     @action
     updateCurrency(ticker: string): void {
         this._currencyTicker = ticker;
+    }
+
+    @action
+    updateState(state: State): void {
+        this._state = state;
+    }
+
+    @action
+    updateErrorMessage(errorMsg: string | null): void {
+        this._errorMessage = errorMsg;
+    }
+
+    private handleMinAmount(minAmount: number): void {
+        if (this.amount < minAmount) {
+            this.updateState('error');
+            this.updateErrorMessage(`min amount is ${minAmount}`);
+        }
+    }
+
+    private async recalcBuyAmount(): Promise<void> {
+        await this.exchangeFormSyncronizer.recalcBuyAmount(
+            this.amount,
+            this.currencyTicker
+        );
     }
 
     @observable
@@ -50,4 +91,13 @@ export class DefaultSellInputService implements SellInputService {
     constructor() {
         makeObservable(this);
     }
+
+    @inject(featuresTokens.exchangeForm.synchronizer)
+    private exchangeFormSyncronizer: BuyInputSyncronizer;
+
+    @inject(servicesTokens.buyInputService)
+    private buyInputService: BuyInputService;
+
+    @inject(coreTokens.services.minExchange)
+    private minExchangeService: MinExchangeService;
 }

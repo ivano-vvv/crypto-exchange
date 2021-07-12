@@ -5,7 +5,6 @@ import {CurrenciesServiceProvider} from './currencies';
 import {ErrorIndicationServiceProvider} from './error-indication';
 import {InitializationServiceProvider} from './initialization';
 import {ThrobberServiceProvider} from './throbber';
-import {ExchangeFormServiceProvider} from './exchange-form';
 import {BuyInputServiceProvider} from './buy-input';
 import {SellInputServiceProvider} from './sell-input';
 
@@ -16,13 +15,11 @@ export function AppContextProvider(props: WrapperProps): ReactElement {
             <ThrobberServiceProvider>
                 <ErrorIndicationServiceProvider>
                     <CurrenciesServiceProvider>
-                        <ExchangeFormServiceProvider>
-                            <BuyInputServiceProvider>
-                                <SellInputServiceProvider>
-                                    {props.children}
-                                </SellInputServiceProvider>
-                            </BuyInputServiceProvider>
-                        </ExchangeFormServiceProvider>
+                        <BuyInputServiceProvider>
+                            <SellInputServiceProvider>
+                                {props.children}
+                            </SellInputServiceProvider>
+                        </BuyInputServiceProvider>
                     </CurrenciesServiceProvider>
                 </ErrorIndicationServiceProvider>
             </ThrobberServiceProvider>

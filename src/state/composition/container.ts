@@ -23,9 +23,14 @@ import {
     servicesTokens,
     ThrobberService,
 } from '../services';
-import {ExchangeFormService} from '../services/exchange-form/exchange-form-service.model';
-import {DefaultExchangeFormService} from '../services/exchange-form/implementation/exchange-form-service.default';
+import {
+    ExchangeFormInitializer,
+    DefaultExchangeFormInitializer,
+} from '../features';
 import {coreTokens} from './core.tokens';
+import {featuresTokens} from '../features/featuresTokens';
+import {BuyInputSyncronizer} from '../features/exchange-form/buy-input-synchronizer/buy-input-synchronizer.model';
+import {DefaultBuyInputSynchronizer} from '../features/exchange-form/buy-input-synchronizer/implemenation/buy-input-synchronizer.default';
 
 export const container = new Container({defaultScope: 'Singleton'});
 
@@ -38,10 +43,6 @@ container
 container
     .bind<CurrenciesService>(servicesTokens.currencies)
     .to(DefaultCurrenciesService);
-
-container
-    .bind<ExchangeFormService>(servicesTokens.exchangeForm)
-    .to(DefaultExchangeFormService);
 
 container
     .bind<BuyInputService>(servicesTokens.buyInputService)
@@ -70,3 +71,11 @@ container
 container
     .bind<EstimatedExchangeService>(coreTokens.services.estimatedExchange)
     .toConstantValue(services.estimatedExchange);
+
+container
+    .bind<ExchangeFormInitializer>(featuresTokens.exchangeForm.initializer)
+    .to(DefaultExchangeFormInitializer);
+
+container
+    .bind<BuyInputSyncronizer>(featuresTokens.exchangeForm.synchronizer)
+    .to(DefaultBuyInputSynchronizer);
