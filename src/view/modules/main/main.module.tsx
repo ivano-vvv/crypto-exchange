@@ -7,6 +7,7 @@ import {
     useThrobberService,
 } from '../../../context';
 import {Throbber} from '../../components';
+import {MainContent} from './main-content.module';
 
 import s from './main.module.css';
 
@@ -32,7 +33,7 @@ export const Main = observer((): ReactElement => {
         <div className={s.self}>
             {isThrobberOn && <Throbber className={s.throbber} />}
             {isError && <span>error!</span>}
-            {!isThrobberOn && !isError && <h1>hello world</h1>}
+            {!isThrobberOn && !isError && <MainContent />}
         </div>
     );
 });
