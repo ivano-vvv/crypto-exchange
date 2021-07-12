@@ -5,6 +5,7 @@ import {CurrenciesServiceProvider} from './currencies';
 import {ErrorIndicationServiceProvider} from './error-indication';
 import {InitializationServiceProvider} from './initialization';
 import {ThrobberServiceProvider} from './throbber';
+import {ExchangeFormServiceProvider} from './exchange-form';
 
 export function AppContextProvider(props: WrapperProps): ReactElement {
     // TODO: продумать более читаемую реализацию
@@ -13,7 +14,9 @@ export function AppContextProvider(props: WrapperProps): ReactElement {
             <ThrobberServiceProvider>
                 <ErrorIndicationServiceProvider>
                     <CurrenciesServiceProvider>
-                        {props.children}
+                        <ExchangeFormServiceProvider>
+                            {props.children}
+                        </ExchangeFormServiceProvider>
                     </CurrenciesServiceProvider>
                 </ErrorIndicationServiceProvider>
             </ThrobberServiceProvider>
