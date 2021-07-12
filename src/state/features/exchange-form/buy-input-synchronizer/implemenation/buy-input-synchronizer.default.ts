@@ -1,8 +1,10 @@
 import {inject, injectable} from 'inversify';
-import {EstimatedExchangeService} from '../../../../../core/services';
-import {coreTokens} from '../../../../composition/core.tokens';
 
-import {servicesTokens, BuyInputService} from '../../../../services';
+import {
+    servicesTokens,
+    BuyInputService,
+    CurrenciesService,
+} from '../../../../services';
 import {BuyInputSyncronizer} from '../buy-input-synchronizer.model';
 
 @injectable()
@@ -15,10 +17,10 @@ export class DefaultBuyInputSynchronizer implements BuyInputSyncronizer {
             to: this.buyInputService.currencyTicker,
         };
 
-        this.estimatedExService
-            .calc(sellAmount, currencies)
-            .then(res => {
-                this.buyInputService.updateAmount(res.estimatedAmount);
+        this.currenciesService
+            .getEstimatedRate(sellAmount, currencies)
+            .then(amount => {
+                this.buyInputService.updateAmount(amount);
                 this.buyInputService.updateState('default');
             })
             .catch(() => {
@@ -29,9 +31,9 @@ export class DefaultBuyInputSynchronizer implements BuyInputSyncronizer {
             });
     }
 
-    @inject(coreTokens.services.estimatedExchange)
-    private estimatedExService: EstimatedExchangeService;
-
     @inject(servicesTokens.buyInputService)
     private buyInputService: BuyInputService;
+
+    @inject(servicesTokens.currencies)
+    private currenciesService: CurrenciesService;
 }

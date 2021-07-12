@@ -1,10 +1,9 @@
 import {inject, injectable} from 'inversify';
 import {action, computed, makeObservable, observable} from 'mobx';
 
-import {MinExchangeService} from '../../../../../core/services';
-import {coreTokens} from '../../../../composition/core.tokens';
 import {BuyInputSyncronizer} from '../../../../features/exchange-form/buy-input-synchronizer/buy-input-synchronizer.model';
 import {featuresTokens} from '../../../../features/featuresTokens';
+import {CurrenciesService} from '../../../currencies';
 import {servicesTokens} from '../../../services.tokens';
 import {State} from '../../../typings';
 import {BuyInputService} from '../../buy-input';
@@ -24,7 +23,7 @@ export class DefaultSellInputService implements SellInputService {
 
     @computed
     get errorMessage(): string | null {
-        return this._errorMessage;
+        return this.state === 'error' ? this._errorMessage : null;
     }
 
     @computed
@@ -34,13 +33,16 @@ export class DefaultSellInputService implements SellInputService {
 
     @action
     updateAmount(value: number): void {
+        this.updateState('loading');
         this._amount = value || 0;
 
-        this.minExchangeService
-            .calc(this.currencyTicker, this.buyInputService.currencyTicker)
-            .then(({minAmount}) => {
-                this.handleMinAmount(minAmount);
-                this.recalcBuyAmount();
+        this.currenciesService
+            .getMinRate(
+                this.currencyTicker,
+                this.buyInputService.currencyTicker
+            )
+            .then(amount => {
+                this.handleMinAmount(amount);
             })
             .catch(() => {
                 this.updateState('error');
@@ -50,6 +52,7 @@ export class DefaultSellInputService implements SellInputService {
     @action
     updateCurrency(ticker: string): void {
         this._currencyTicker = ticker;
+        this.updateAmount(this.amount);
     }
 
     @action
@@ -66,6 +69,9 @@ export class DefaultSellInputService implements SellInputService {
         if (this.amount < minAmount) {
             this.updateState('error');
             this.updateErrorMessage(`min amount is ${minAmount}`);
+        } else {
+            this.updateState('default');
+            this.recalcBuyAmount();
         }
     }
 
@@ -98,6 +104,6 @@ export class DefaultSellInputService implements SellInputService {
     @inject(servicesTokens.buyInputService)
     private buyInputService: BuyInputService;
 
-    @inject(coreTokens.services.minExchange)
-    private minExchangeService: MinExchangeService;
+    @inject(servicesTokens.currencies)
+    private currenciesService: CurrenciesService;
 }

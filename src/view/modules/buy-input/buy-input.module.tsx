@@ -33,12 +33,17 @@ export const BuyInput = observer(
             buyInputService.updateCurrency(kind.ticker);
         }
 
+        const errorMessage = buyInputService.errorMessage;
+
         return (
-            <CurrencyInput
-                className={classNames(className, s.self)}
-                value={value}
-                onValueChange={handleValueUpdate}
-            />
+            <div className={classNames(className, s.wrapper)}>
+                <CurrencyInput
+                    className={s.self}
+                    value={value}
+                    onValueChange={handleValueUpdate}
+                />
+                {errorMessage && <span>{errorMessage}</span>}
+            </div>
         );
     }
 );
