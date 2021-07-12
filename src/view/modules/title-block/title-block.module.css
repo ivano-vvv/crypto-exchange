@@ -1,0 +1,12 @@
+.title {
+    margin-bottom: 16px;
+
+    font-weight: 200;
+    font-size: 50px;
+    line-height: 120%;
+}
+
+.desc {
+    font-size: 20px;
+    line-height: 100%;
+}
