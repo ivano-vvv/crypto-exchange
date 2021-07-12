@@ -34,7 +34,11 @@ export class DefaultSellInputService implements SellInputService {
     @action
     updateAmount(value: number): void {
         this.updateState('loading');
-        this._amount = value || 0;
+        this._amount = value;
+
+        if (!this.amount) {
+            return;
+        }
 
         this.currenciesService
             .getMinRate(
